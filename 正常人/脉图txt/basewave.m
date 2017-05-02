@@ -1,5 +1,5 @@
 clear all;
-str = '20150819082 - Õı÷æ«ø - ”“.txt';
+str = '20131228007 - ΩØ√∑Ê∑ - ”“.txt';
 y = textread(str, '', 'headerlines', 1);
 % ss = textread(str, '%s');
 % y = hex2dec(ss);
@@ -77,6 +77,9 @@ for i=1:nn-1
         indexes(in) = i;
         c_ind(in) = min_r(i);
         d = min_r(i+1) - min_r(i);
+        
+        dis(in) = d;
+        
         a1(in) = h1;
         a3(in) = h3;
         a4(in) = h4;
@@ -99,24 +102,28 @@ for i=1:nn-1
     end 
 end
 
-md
+m_d = mean(dis, 2);
+fid = fopen('G:\workspace\matlab\fre_timezone.csv', 'a+');
+fprintf(fid, '%s,%.4f\n', str,m_d);
+fclose(fid);
+m_d
 
-t1 = mean(cc1, 2)
-t3 = mean(c3, 2)
-t4 = mean(c4, 2)
-t5 = mean(c5, 2)
-h_1 = mean(v1, 2)
-h_3 = mean(v3, 2)
-h_4 = mean(v4, 2)
-h_5 = mean(v5, 2)
+% t1 = mean(cc1, 2)
+% t3 = mean(c3, 2)
+% t4 = mean(c4, 2)
+% t5 = mean(c5, 2)
+% h_1 = mean(v1, 2)
+% h_3 = mean(v3, 2)
+% h_4 = mean(v4, 2)
+% h_5 = mean(v5, 2)
 
 figure(5);
 ss = s1(min_r(indexes(10)):min_r(indexes(10)+1));
 plot(ss);
 
-fid = fopen('G:\workspace\matlab\data_timezone2.csv', 'a+');
-fprintf(fid, '%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', str,t1,t3,t4,h_1,h_3,h_4);
-fclose(fid);
+% fid = fopen('G:\workspace\matlab\data_timezone.csv', 'a+');
+% fprintf(fid, '%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', str,t1,t3,t4,h_1,h_3,h_4);
+% fclose(fid);
 
 % [h1, h3, h5, h4] = gettimepoint(ss);
 % h1 / length(ss)
