@@ -114,7 +114,7 @@ for i=1:length(chosen_p);
 %     figure(3);
     x = 1:10;
     x1 = x * index + 1;
-    plot(x, mag(x1));
+%     plot(x, mag(x1));
 
     t = mag(x1);
     p = get_pwv(t);
