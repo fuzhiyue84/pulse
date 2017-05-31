@@ -1,4 +1,4 @@
-function [pwv, number, rf, fre] = pwv(str)
+function [pwv, number, rf, fre, n_rr, num_rr] = pwv(str)
 %PWV Summary of this function goes here
 %   Detailed explanation goes here
 y = textread(str, '', 'headerlines', 1);
@@ -44,6 +44,10 @@ t = 170;
 %     end
 % end
 
+plot(y);
+hold on
+plot(s1);
+
 x1 = 1;
 x2 = t;
 num = 1;
@@ -80,7 +84,7 @@ for i=1:nn-1
     dis(i) = min_r(i+1) - min_r(i);
 end
 
-% min_r
+min_r
 md = median(dis, 2);
 % dis
 num = 1;
@@ -92,7 +96,7 @@ for i=1:nn-1
 end
 
 % chosen_p
-for i=1:length(chosen_p);
+for i=1:length(chosen_p)
     td = chosen_p(i);
     ms1 = s1(min_r(td):min_r(td+1));
 
@@ -102,7 +106,7 @@ for i=1:length(chosen_p);
     N = length(ms1);
     n = 0:N-1; fs=200;
     t =n/fs;
-    yy = fft(s1, N) / N * 2;
+    yy = fft(ms1, N) / N * 2;
     mag = abs(yy);
     f = n*fs/N;
 %     figure(2);
@@ -130,7 +134,12 @@ for i=1:length(chosen_p);
     r_arr(i) = r; 
 end
 
+p_arr
+
 [pwv, number, rf] = get_majority(p_arr, r_arr);
+
+[n_rr, num_rr] = get_pwv_static(p_arr);
+
 fre = get_first_fre(dis);
 
 if fre < 1
