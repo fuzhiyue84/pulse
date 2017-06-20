@@ -17,26 +17,31 @@ def get_nmin(seg):
        return i + 1
 
 np.set_printoptions(threshold=np.nan)
-
-#for filename in os.listdir(r'python'):
-#    print filename
-
-text = np.loadtxt('20150812012 - 谢粉珍 - 右.txt')
-min_r = ppr.seg_pulse(text)
-N_r = np.shape(min_r)[0]
+data = np.empty(0)
 
 
-result = np.empty(0, int)
-for j in range(N_r - 1):
-   xx = text[min_r[j]:(min_r[j+1]+1)]
-   y1 = abs(fft(xx))
-   mi = get_nmin(y1) 
-   result = np.append(result, mi)
+n = 1
+for filename in os.listdir(r'a/python'):
+    print filename
+    print n
+    sfile = 'a/python/' + filename
+    text = np.loadtxt(sfile)
+    min_r = ppr.seg_pulse(text)
+    N_r = np.shape(min_r)[0]
 
-print result
+    result = np.empty(0, int)
+    for j in range(N_r - 1):
+        xx = text[min_r[j]:(min_r[j + 1] + 1)]
+        y1 = abs(fft(xx))
+        if np.shape(y1)[0] > 10:
+           mi = get_nmin(y1)
+           result = np.append(result, mi)
 
-pwv_dis = ppr.nmin_majority(result)
-print pwv_dis
+    flag = ppr.nmin_majority(result)
+    col = np.array([filename])
+    col = np.append(col, flag)
+    data = np.append(data, col)
+    n = n + 1
 
-plt.plot(text, 'r')
-plt.show()
+final_data = np.reshape(data, (-1, 5))
+np.savetxt('result.csv', final_data, fmt='%s,%s,%s,%s,%s', newline='\n')

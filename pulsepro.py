@@ -12,7 +12,7 @@ def seg_pulse(text):
    m = np.empty(0, int)
    num = 0
 
-   while (x1 < N):
+   while (x1 < N) and (x1 < x2):
       s = text[x1:x2]
       n_max = np.argmax(s)
       n_1 = x1 + n_max
@@ -29,7 +29,7 @@ def seg_pulse(text):
    
       num = num + 1
 
-   m_r = np.array([1])
+   m_r = np.empty(0, int)
    m_r = np.append(m_r, m)
 
    l_r = np.shape(m_r)
@@ -80,8 +80,7 @@ def nmin_majority(text):
 
       if (text[i] == 10):
          flag[9] = flag[9] + 1
-   
-   print flag
+
    n1 = np.argmax(flag)
    m1 = np.max(flag)
    
