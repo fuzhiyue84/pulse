@@ -1,7 +1,7 @@
 clear all;
 namelist = dir('*.txt');
 len = length(namelist);
-fid = fopen('G:\look_5.csv', 'a+');
+fid = fopen('G:\result3.csv', 'a+');
 for i=1:len
     str = namelist(i).name;
     [n, p, r, f, n_r, num_r] = pwv_data(str);
