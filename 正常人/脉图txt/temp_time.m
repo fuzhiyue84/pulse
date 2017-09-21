@@ -1,8 +1,5 @@
-clear all
-
-str = '20151013006 - Êæ½ğĞ¢ - ÓÒ.txt';
-y = textread(str, '', 'headerlines', 1);
-
+clear all;
+y = textread('20131123005 - ÀîÊ¿²ı - ÓÒ.txt', '', 'headerlines', 1);
 [c,l]=wavedec(y,8,'sym8'); 
 a8=appcoef(c,l,'sym8',8); 
 m = mean(a8);
@@ -19,5 +16,11 @@ c1 = [a8; d8; d7; d6; d5; d4; d3; d2; d1];
 s1 = waverec(c1, l, 'sym8');
 
 s1 = denwave(s1);
-plot(s1);
-fre = get_first_fre(s1);
+s1 = s1;
+s = s1(4447:5000);
+
+[start_point, end_point] = findstartpoint(s)
+s2 = s(104:385);
+d = diff(s2);
+plot(s);
+[h3, h4] = timezone(s2, 38)

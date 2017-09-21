@@ -1,7 +1,9 @@
-function [h1, h3, h5, h4] = gettimepoint(y)
+function [h1, h3, h5, h4, w] = gettimepoint(y)
 %GETTIMEPOINT Summary of this function goes here
 %   Detailed explanation goes here
 d = diff1(y);
+figure(2);
+plot(d);
 N = length(y);
 h1 = 1;
 h3 = 1;
@@ -74,5 +76,25 @@ else
     end
 end
 
+v0 = y(1);
+v1 = y(h1);
+dh = v1 - v0;
+dh = dh * 0.7
+ff = 0;
+w1 = 1;
+w2 = 1;
+for i=2:N
+    dh1 = y(i-1) - v0;
+    dh2 = y(i) -v0;
+    if (dh1 < dh) && (dh2 > dh) && (ff == 0)
+        w1 = i;
+        ff = 1;
+    end
+    if (dh1 > dh) && (dh2 < dh) && (ff == 1)
+        w2 = i;
+        break;
+    end
+end
+w = w2 - w1;
 end
 

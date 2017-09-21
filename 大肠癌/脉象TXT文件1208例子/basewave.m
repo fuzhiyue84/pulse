@@ -1,5 +1,10 @@
 clear all;
-str = '20131228007 - ½¯Ã·æ· - ÓÒ.txt';
+namelist = dir('*.txt');
+len = length(namelist);
+
+for j=1:len
+    str = namelist(j).name;
+    str
 y = textread(str, '', 'headerlines', 1);
 % ss = textread(str, '%s');
 % y = hex2dec(ss);
@@ -25,54 +30,72 @@ s1 = s1;
 figure(1);
 plot(s1);
 
+N = length(s1);
 t = 170;
-nn = 50;
-r = zeros(1, nn);
-for i=1:nn
-    if i==1
-        s = s1(1:t);
-        [v, index] = max(s);
-        r(i) = index;
-    else
-        x1 = r(i-1) + floor(t/2);
-        x2 = x1 + t;
-        s = s1(x1:x2);
-        [v, index] = max(s);
-        r(i) = index + x1 -1;
-        dt = r(i) - r(i-1);
-        if dt > 100
-            t = dt;
-        end
+
+x1 = 1;
+x2 = t;
+num = 1;
+while (x1 < N)
+    s = s1(x1:x2);
+    [v, index] = max(s);
+    p_r(num) = index + x1 - 1;
+    x1 = p_r(num) + floor(t/ 2);
+    x2 = x1 + t;
+    if num > 1 && p_r(num) - p_r(num - 1) > 100 && p_r(num) - p_r(num - 1) < 350
+        t = p_r(num) - p_r(num - 1);
     end
+    if x2 > N
+        x2 = N;
+    end
+    num = num + 1;
 end
 
+nn = length(p_r);
 rr = ones(1,nn+1);
 for i=1:nn
-    rr(i+1) = r(i);
+    rr(i+1) = p_r(i);
 end
 
-r
-
 min_r = zeros(1,nn);
+
 for i=1:nn
     s = s1(rr(i):rr(i+1));
     minindex = findminpoint(s);
     min_r(i) = rr(i) + minindex - 1;
 end
-min_r
-x = diff1(min_r);
-x
 
-md = median(x,2);
-md
+dis = zeros(1, nn-1);
+for i=1:nn-1
+    dis(i) = min_r(i+1) - min_r(i);
+end
 
-in = 0;
+% min_r
+md = median(dis, 2);
+% dis
+num = 1;
+for i=1:nn-1
+    if abs(md - dis(i)) < 15
+        chosen_p(num) = i;
+        num = num + 1;
+    end
+end
+
+num = 1;
+for i=1:nn-1
+    if abs(md - dis(i)) < 15
+        chosen_p(num) = i;
+        num = num + 1;
+    end
+end
+
 % fid = fopen('G:\workspace\matlab\height.txt', 'wt');
 % fidi = fopen('G:\workspace\matlab\points.txt', 'wt');
-for i=1:nn-1
-    if abs(x(i) - md) < 15
-        xx = s1(min_r(i):min_r(i+1));
-        [h1, h3, h5, h4] = gettimepoint(xx);
+in = 0;
+for i=1:length(chosen_p);
+        td = chosen_p(i);
+        xx = s1(min_r(td):min_r(td+1));
+        [h1, h3, h5, h4, w] = gettimepoint(xx);
         in = in + 1;
         indexes(in) = i;
         c_ind(in) = min_r(i);
@@ -84,11 +107,13 @@ for i=1:nn-1
         a3(in) = h3;
         a4(in) = h4;
         a5(in) = h5;
+        aw(in) = w;
         
         cc1(in) = h1 / d;
         c3(in) = h3 / d;
         c5(in) = h5 / d;
         c4(in) = h4 / d;
+        cw(in) = w / d;
         
 %         fprintf(fidi, '%d %d %d\n', h1, h3, h5);
         
@@ -99,7 +124,6 @@ for i=1:nn-1
         v4(in) = xx(h4) - minv;
         
 %         fprintf(fid, '%.4f %.4f %.4f\n', v1, v3, v5);
-    end 
 end
 
 m_d = mean(dis, 2);
@@ -108,22 +132,24 @@ fprintf(fid, '%s,%.4f\n', str,m_d);
 fclose(fid);
 m_d
 
-% t1 = mean(cc1, 2)
-% t3 = mean(c3, 2)
-% t4 = mean(c4, 2)
-% t5 = mean(c5, 2)
-% h_1 = mean(v1, 2)
-% h_3 = mean(v3, 2)
-% h_4 = mean(v4, 2)
-% h_5 = mean(v5, 2)
+t1 = mean(cc1, 2)
+t3 = mean(c3, 2)
+t4 = mean(c4, 2)
+t5 = mean(c5, 2)
+tw = mean(cw, 2)
+h_1 = mean(v1, 2)
+h_3 = mean(v3, 2)
+h_4 = mean(v4, 2)
+h_5 = mean(v5, 2)
 
-figure(5);
-ss = s1(min_r(indexes(10)):min_r(indexes(10)+1));
-plot(ss);
+% figure(5);
+% ss = s1(min_r(indexes(10)):min_r(indexes(10)+1));
+% plot(ss);
 
-% fid = fopen('G:\workspace\matlab\data_timezone.csv', 'a+');
-% fprintf(fid, '%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', str,t1,t3,t4,h_1,h_3,h_4);
-% fclose(fid);
+fid = fopen('G:\workspace\matlab\data_timezone.csv', 'a+');
+fprintf(fid, '%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', str,t1,t3,t4,h_1,h_3,h_4,w);
+fclose(fid);
+end
 
 % [h1, h3, h5, h4] = gettimepoint(ss);
 % h1 / length(ss)

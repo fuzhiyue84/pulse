@@ -1,5 +1,5 @@
-function [pwv, number, rf, fre] = pwv(str)
-%PWV Summary of this function goes here
+function [t1, t3, t4, t5, h_1, h_3, h_4, h_5, tw] = time_data(str)
+%TIME_DATA Summary of this function goes here
 %   Detailed explanation goes here
 y = textread(str, '', 'headerlines', 1);
 
@@ -92,53 +92,49 @@ for i=1:nn-1
 end
 
 % chosen_p
+in = 0;
 for i=1:length(chosen_p);
     td = chosen_p(i);
     ms1 = s1(min_r(td):min_r(td+1));
-
-%     figure(1);
-%     plot(ms1);
-
-    N = length(ms1);
-    n = 0:N-1; fs=200;
-    t =n/fs;
-    yy = fft(s1, N) / N * 2;
-    mag = abs(yy);
-    f = n*fs/N;
-%     figure(2);
-%     plot(f(1:N/2), mag(1:N/2));
-
-    s2 = mag(2:N);
-    index = 1;
-
-%     figure(3);
-    x = 1:10;
-    x1 = x * index + 1;
-    plot(x, mag(x1));
-
-    t = mag(x1);
-    p = get_pwv(t);
-    p_arr(i) = p;
-    
-    if p == 1
-        v = max(t);
-        r = 1 - t(1) / v;
-    else
-        r = 1 - t(p) / t(1);
-    end
-    
-    r_arr(i) = r; 
+    xx = s1(min_r(td):min_r(td+1));
+        [h1, h3, h5, h4, w] = gettimepoint(xx);
+        in = in + 1;
+        indexes(in) = i;
+        c_ind(in) = min_r(i);
+        d = min_r(i+1) - min_r(i);
+        
+        dis(in) = d;
+        
+        a1(in) = h1;
+        a3(in) = h3;
+        a4(in) = h4;
+        a5(in) = h5;
+        aw(in) = w;
+        
+        cc1(in) = h1 / d;
+        c3(in) = h3 / d;
+        c5(in) = h5 / d;
+        c4(in) = h4 / d;
+        cw(in) = w / d;
+        
+%         fprintf(fidi, '%d %d %d\n', h1, h3, h5);
+        
+        minv = min(xx);
+        v1(in) = xx(h1) - minv;
+        v3(in) = xx(h3) - minv;
+        v5(in) = xx(h5) - minv;
+        v4(in) = xx(h4) - minv;
 end
 
-[pwv, number, rf] = get_majority(p_arr, r_arr);
-fre = get_first_fre(dis);
-
-if fre < 1
-    str
-    dis
-end
-    
-fre = get_first_fre(dis);
+t1 = mean(cc1, 2)
+t3 = mean(c3, 2)
+t4 = mean(c4, 2)
+t5 = mean(c5, 2)
+tw = mean(cw, 2)
+h_1 = mean(v1, 2)
+h_3 = mean(v3, 2)
+h_4 = mean(v4, 2)
+h_5 = mean(v5, 2)
 
 end
 
