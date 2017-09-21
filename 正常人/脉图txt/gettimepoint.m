@@ -3,7 +3,7 @@ function [h1, h3, h5, h4, w] = gettimepoint(y)
 %   Detailed explanation goes here
 d = diff1(y);
 figure(2);
-plot(d);
+plot(y);
 N = length(y);
 h1 = 1;
 h3 = 1;
@@ -79,7 +79,7 @@ end
 v0 = y(1);
 v1 = y(h1);
 dh = v1 - v0;
-dh = dh * 0.7
+dh = dh * 0.667
 ff = 0;
 w1 = 1;
 w2 = 1;

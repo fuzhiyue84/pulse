@@ -119,7 +119,7 @@ for i=1:length(chosen_p);
         
 %         fprintf(fidi, '%d %d %d\n', h1, h3, h5);
         
-        minv = min(xx);
+        minv = xx(1);
         v1(in) = xx(h1) - minv;
         v3(in) = xx(h3) - minv;
         v5(in) = xx(h5) - minv;
