@@ -1,7 +1,7 @@
 clear all;
 namelist = dir('*.txt');
 len = length(namelist);
-fid = fopen('G:\workspace\matlab\result2.csv', 'a+');
+fid = fopen('F:\result2.csv', 'a+');
 for i=1:len
     str = namelist(i).name;
     [n, p, r, f] = pwv_data(str);

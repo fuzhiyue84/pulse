@@ -1,4 +1,4 @@
-function [pwv, number, rf, fre] = pwv(str)
+function [pwv, number, rf, fre] = pwv_data(str)
 %PWV Summary of this function goes here
 %   Detailed explanation goes here
 y = textread(str, '', 'headerlines', 1);
@@ -130,8 +130,14 @@ for i=1:length(chosen_p);
     r_arr(i) = r; 
 end
 
+
 [pwv, number, rf] = get_majority(p_arr, r_arr);
 fre = get_first_fre(dis);
+[ppr, ttr] = new_get_pwv(p_arr, r_arr);
+
+ppr
+ttr
+p_arr
 
 if fre < 1
     str
