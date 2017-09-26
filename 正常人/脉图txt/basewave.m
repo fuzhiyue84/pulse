@@ -2,7 +2,7 @@ clear all;
 namelist = dir('*.txt');
 len = length(namelist);
 
-fid = fopen('F:\data_from.csv', 'a+');
+fid = fopen('G:\data_from_normal.csv', 'a+');
 for j=1:len
     str = namelist(j).name;
     str
