@@ -1,6 +1,6 @@
 namelist = dir('*.txt');
 len = length(namelist);
-fid = fopen('G:\workspace\matlab\result_10.csv', 'a+');
+fid = fopen('G:\workspace\matlab\result_12.csv', 'a+');
 for i=1:len
     str = namelist(i).name;
     str

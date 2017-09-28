@@ -1,7 +1,7 @@
 clear all;
 fid = fopen('G:\workspace\matlab\result22.csv', 'r+');  
 f1 = fopen('G:\workspace\matlab\result2.csv', 'r+'); 
-fid2 = fopen('G:\workspace\matlab\result27.csv', 'a+');
+fid2 = fopen('G:\workspace\matlab\result26.csv', 'a+');
 m = textscan(fid,'%s %f %f %f %f %f %f %f %f %f', 'delimiter', ',');
 mm = textscan(f1,'%s %d %d %f %f %d', 'delimiter', ',');
 fclose(fid);

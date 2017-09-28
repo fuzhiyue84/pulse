@@ -1,5 +1,4 @@
-y = textread('20140312001 - ÇñÏşĞÀ - ×ó.txt', '', 'headerlines', 1);
-
+y = textread('20150728003 - ³Â×æÅà - ÓÒ.txt', '', 'headerlines', 1);
 [c,l]=wavedec(y,8,'sym8'); 
 a8=appcoef(c,l,'sym8',8); 
 m = mean(a8);
@@ -15,21 +14,11 @@ d1=detcoef(c,l,1);
 c1 = [a8; d8; d7; d6; d5; d4; d3; d2; d1];
 s1 = waverec(c1, l, 'sym8');
 s1 = denwave(s1);
-
-figure(5);
-s = s1(3447:5300);
-plot(s1);
+s = s1(4447:5000);
+figure(1);
+plot(y(4447:5000));
 hold on;
 plot(s);
-
-s = s(648:795);
-    n = 0:N-1; fs=200;
-    t =n/fs;
-    yy = fft(s1, N) / N * 2;
-    mag = abs(yy);
-    f = n*fs/N;
-%     figure(2);
-%     plot(f(1:N/2), mag(1:N/2));
 
 [start_point, end_point] = findstartpoint(s)
 % t = s(35:161);
