@@ -130,14 +130,9 @@ for i=1:length(chosen_p);
     r_arr(i) = r; 
 end
 
-
-[pwv, number, rf] = get_majority(p_arr, r_arr);
 fre = get_first_fre(dis);
-[ppr, ttr] = new_get_pwv(p_arr, r_arr);
-
-ppr
-ttr
 p_arr
+[pwv, number ,rf] = new_get_pwv(p_arr, r_arr);
 
 if fre < 1
     str

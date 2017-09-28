@@ -1,4 +1,4 @@
-function [p, r] = new_get_pwv(p_arr, r_arr)
+function [p, n, r] = new_get_pwv(p_arr, r_arr)
 %NEW_GET_PWV Summary of this function goes here
 %   Detailed explanation goes here
     N = length(p_arr);
@@ -14,13 +14,19 @@ function [p, r] = new_get_pwv(p_arr, r_arr)
         end
     end
     
-    for j=1:15
-        p_d(j) = p_arr(i-15+j);
-        r_d(j) = r_arr(i-15+j);
+    if (i >= 15)
+        for j=1:15
+           p_d(j) = p_arr(i-15+j);
+           r_d(j) = r_arr(i-15+j);
+        end
+    else
+        for j=1:i
+           p_d(j) = p_arr(j);
+           r_d(j) = r_arr(j);
+        end
     end
     
-    p = max(p_d);
-    r = mean(r_d, 2);
+    [p, n, r] = get_majority(p_d, r_d);
     
 end
 
