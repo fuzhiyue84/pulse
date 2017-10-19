@@ -102,7 +102,7 @@ for i=1:length(chosen_p);
     N = length(ms1);
     n = 0:N-1; fs=200;
     t =n/fs;
-    yy = fft(s1, N) / N * 2;
+    yy = fft(ms1, N) / N * 2;
     mag = abs(yy);
     f = n*fs/N;
 %     figure(2);

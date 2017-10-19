@@ -1,23 +1,23 @@
 clear all;
-fid = fopen('G:\workspace\matlab\result22.csv', 'r+');  
-f1 = fopen('G:\workspace\matlab\result2.csv', 'r+'); 
-fid2 = fopen('G:\workspace\matlab\result26.csv', 'a+');
-m = textscan(fid,'%s %f %f %f %f %f %f %f %f %f', 'delimiter', ',');
-mm = textscan(f1,'%s %d %d %f %f %d', 'delimiter', ',');
+fid = fopen('F:\sss.csv', 'r+');  
+f1 = fopen('F:\result18.csv', 'r+'); 
+fid2 = fopen('F:\result334.csv', 'a+');
+m = textscan(fid,'%d %s', 'delimiter', ',');
+mm = textscan(f1,'%s %d %d %f %f', 'delimiter', ',');
 fclose(fid);
-file_str = m{1};
-num1 = m{2};
-num2 = m{3};
-num3 = m{4};
+file_str = m{2};
+num1 = m{1};
 
 sp = mm{1};
-s_n = mm{6};
+num2 = mm{2};
+num4 = mm{4};
+num5 = mm{5};
 
-len = length(sp);
+len = length(file_str);
 
 for i=1:len
-    ss = sp{i};
-    nn = s_n(i);
+    ss = file_str{i};
+    ss
 %     start_point = num1(i);
 %     end_point = num2(i);
 %     h1 = num3(i);
@@ -45,12 +45,16 @@ for i=1:len
 %     s = s1(4447:5000);
 %     s2 = s(start_point:end_point);
     t = 0;
-    for j = 1:size(file_str,1)
-        if length(findstr(ss, file_str{j}))
+    nn = -1;
+    nm = -1;
+    for j = 1:length(sp)
+        if length(findstr(ss, sp{j}))
             t = j;
+            nn = num4(t);
+            nm = num5(t);
         end 
     end
-    fprintf(fid2, '%s,%d\n', ss,t);
+    fprintf(fid2, '%s,%d,%d,%.4f,%.4f\n', ss,num2(t),num1(i),nn,nm);
     
 %     plot(s2);
     

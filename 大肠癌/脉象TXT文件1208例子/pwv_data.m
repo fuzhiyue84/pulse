@@ -102,7 +102,7 @@ for i=1:length(chosen_p);
     N = length(ms1);
     n = 0:N-1; fs=200;
     t =n/fs;
-    yy = fft(s1, N) / N * 2;
+    yy = fft(ms1, N) / N * 2;
     mag = abs(yy);
     f = n*fs/N;
 %     figure(2);
@@ -114,7 +114,7 @@ for i=1:length(chosen_p);
 %     figure(3);
     x = 1:10;
     x1 = x * index + 1;
-    plot(x, mag(x1));
+%     plot(x, mag(x1));
 
     t = mag(x1);
     p = get_pwv(t);
@@ -140,6 +140,28 @@ if fre < 1
 end
     
 fre = get_first_fre(dis);
+
+td = chosen_p(46);
+ms1 = s1(min_r(td):min_r(td+1));
+figure(3);
+plot(ms1);
+N = length(ms1);
+n = 0:N-1; fs=200;
+t =n/fs;
+yy = fft(ms1, N) / N * 2;
+mag = abs(yy);
+f = n*fs/N;
+%     figure(2);
+%     plot(f(1:N/2), mag(1:N/2));
+
+s2 = mag(2:N);
+index = 1;
+
+x = 1:10;
+x1 = x * index+1;
+figure(2);
+plot(x, mag(x1));
+% plot(mag);
 
 end
 
